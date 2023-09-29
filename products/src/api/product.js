@@ -1,6 +1,6 @@
 const ProductService = require("../services/product-service");
 const { RPCObserver } = require("../utils");
-const { RPC_QUEUE_NAME } = require('../config');
+const { RPC_QUEUE_NAME } = require("../config");
 
 module.exports = (app) => {
   const service = new ProductService();
@@ -13,19 +13,19 @@ module.exports = (app) => {
 
     try {
       const { data } = await service.CreateProduct({
-      name,
-      desc,
-      type,
-      unit,
-      price,
-      available,
-      suplier,
-      banner,
-    });
-    return res.json(data);
+        name,
+        desc,
+        type,
+        unit,
+        price,
+        available,
+        suplier,
+        banner,
+      });
+      return res.json(data);
     } catch (error) {
-      next(error)
-    } 
+      next(error);
+    }
   });
 
   app.get("/category/:type", async (req, res, next) => {
@@ -58,19 +58,15 @@ module.exports = (app) => {
     } catch (error) {
       next(error);
     }
-    
   });
-  
+
   app.get("/whoami", (req, res, next) => {
-    return res
-      .status(200)
-      .json({ msg: "/ or /products : I am products Service" });
+    return res.status(200).json({ msg: "/products : I am products Service" });
   });
 
   //get all  products and category //
 
   app.get("/", async (req, res, next) => {
-  
     try {
       const { data } = await service.GetProducts();
       return res.status(200).json(data);

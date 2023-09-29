@@ -1,6 +1,6 @@
 const { ProductRepository } = require("../database");
-const { FormateData } = require("../utils");
-const { APIError, NotFoundError } = require('../utils/errors/app-errors')
+const { FormatData } = require("../utils");
+const { APIError, NotFoundError } = require("../utils/errors/app-errors");
 
 // All Business logic will be here
 
@@ -11,17 +11,17 @@ class ProductService {
 
   async CreateProduct(productInputs) {
     const productResult = await this.repository.CreateProduct(productInputs);
-    if(!productResult) {
-      throw new APIError("try after sometime!")
+    if (!productResult) {
+      throw new APIError("try after sometime!");
     }
-    return FormateData(productResult);
+    return FormatData(productResult);
   }
 
   async GetProducts() {
     const products = await this.repository.Products();
 
-    if(!products) {
-      throw new NotFoundError("products not found, try after sometime!")
+    if (!products) {
+      throw new NotFoundError("products not found, try after sometime!");
     }
 
     let categories = {};
@@ -30,7 +30,7 @@ class ProductService {
       categories[type] = type;
     });
 
-    return FormateData({
+    return FormatData({
       products,
       categories: Object.keys(categories),
     });
@@ -38,28 +38,27 @@ class ProductService {
 
   async GetProductDescription(productId) {
     const product = await this.repository.FindById(productId);
-    if(!product) {
-      throw new NotFoundError("product not found with provided product id!")
+    if (!product) {
+      throw new NotFoundError("product not found with provided product id!");
     }
-    return FormateData(product);
+    return FormatData(product);
   }
 
   async GetProductsByCategory(category) {
     const products = await this.repository.FindByCategory(category);
-     if(!products) {
-      throw new NotFoundError("products not found with provided category!")
+    if (!products) {
+      throw new NotFoundError("products not found with provided category!");
     }
-    return FormateData(products);
+    return FormatData(products);
   }
 
   async GetSelectedProducts(selectedIds) {
     const products = await this.repository.FindSelectedProducts(selectedIds);
-     if(!products) {
-      throw new NotFoundError("products not found with provided product ids!")
+    if (!products) {
+      throw new NotFoundError("products not found with provided product ids!");
     }
-    return FormateData(products);
+    return FormatData(products);
   }
-
 
   // RPC Response
 

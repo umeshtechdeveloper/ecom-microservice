@@ -5,7 +5,6 @@ const _ = require("lodash");
 //Dealing with data base operations
 
 class ShoppingRepository {
-
   // Cart
 
   async Cart(customerId) {
@@ -16,15 +15,16 @@ class ShoppingRepository {
     const cart = await CartModel.findOne({ customerId });
     if (cart) {
       if (isRemove) {
+        // handle remove case
+
         const cartItems = _.filter(
           cart.items,
           (item) => item.product._id !== product._id
         );
         cart.items = cartItems;
-
-        // handle remove case
-
       } else {
+        // update qty
+
         const cartIndex = _.findIndex(cart.items, {
           product: { _id: product._id },
         });
@@ -36,8 +36,7 @@ class ShoppingRepository {
       }
       return await cart.save();
     } else {
-
-      // create a new one
+      // create a new cart for customer Id
 
       return await CartModel.create({
         customerId,
@@ -57,7 +56,6 @@ class ShoppingRepository {
         wishlist.products = produtcs;
 
         // handle remove case
-
       } else {
         const wishlistIndex = _.findIndex(wishlist.products, {
           _id: product_id,
@@ -68,7 +66,6 @@ class ShoppingRepository {
       }
       return await wishlist.save();
     } else {
-
       // create a new one
 
       return await WishlistModel.create({
@@ -99,7 +96,6 @@ class ShoppingRepository {
       let cartItems = cart.items;
 
       if (cartItems.length > 0) {
-
         //process Order
 
         cartItems.map((item) => {

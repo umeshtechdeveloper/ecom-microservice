@@ -12,19 +12,19 @@ let amqplibConnection = null;
 
 //Utility functions
 
-  (module.exports.ValidateSignature = async (req) => {
-    const signature = req.get("Authorization");
+module.exports.ValidateSignature = async (req) => {
+  const signature = req.get("Authorization");
 
-    if (signature) {
-      const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
-      req.user = payload;
-      return true;
-    }
+  if (signature) {
+    const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
+    req.user = payload;
+    return true;
+  }
 
-    return false;
-  });
+  return false;
+};
 
-module.exports.FormateData = (data) => {
+module.exports.FormatData = (data) => {
   if (data) {
     return { data };
   } else {
@@ -50,7 +50,6 @@ module.exports.CreateChannel = async () => {
     throw err;
   }
 };
-
 
 module.exports.SubscribeMessage = async (channel, service) => {
   await channel.assertExchange(EXCHANGE_NAME, "direct", { durable: true });
@@ -90,7 +89,6 @@ const requestData = async (RPC_QUEUE_NAME, requestPayload, uuid) => {
     );
 
     return new Promise((resolve, reject) => {
-
       // timeout n
 
       const timeout = setTimeout(() => {

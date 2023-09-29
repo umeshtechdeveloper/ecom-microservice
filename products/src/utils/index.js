@@ -1,12 +1,9 @@
 const amqplib = require("amqplib");
-const {
-  EXCHANGE_NAME,
-  MSG_QUEUE_URL,
-} = require("../config");
+const { EXCHANGE_NAME, MSG_QUEUE_URL } = require("../config");
 
 let amqplibConnection = null;
 
-module.exports.FormateData = (data) => {
+module.exports.FormatData = (data) => {
   if (data) {
     return { data };
   } else {
@@ -45,7 +42,6 @@ module.exports.RPCObserver = async (RPC_QUEUE_NAME, service) => {
     RPC_QUEUE_NAME,
     async (msg) => {
       if (msg.content) {
-       
         // DB Operation
 
         const payload = JSON.parse(msg.content.toString());
